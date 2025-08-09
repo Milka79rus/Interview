@@ -6,10 +6,10 @@ stack_checker.py
 'Сбалансированно' или 'Несбалансированно'.
 """
 
-
 from typing import Generic, List, Optional, TypeVar
 
 T = TypeVar("T")
+
 
 class Stack(Generic[T]):
     """Простой стек на базе списка."""
@@ -17,26 +17,23 @@ class Stack(Generic[T]):
     def __init__(self) -> None:
         self._items: List[T] = []
 
-
     def is_empty(self) -> bool:
-        """Возвращает True, если стек пуст."""    
+        """Возвращает True, если стек пуст."""
         return len(self._items) == 0
-    
+
     def push(self, item: T) -> None:
         """Добавляет элемент на вершину стека."""
         self._items.append(item)
 
-
     def pop(self) -> T:
         """Удаляет и возвращает верхний элемент стека.
-        
+
         Raises:
             IndexError: если стек пуст.
         """
         if self.is_empty():
             raise IndexError("pop from empty stack")
         return self._items.pop()
-    
 
     def peek(self) -> Optional[T]:
         """Возвращает верхний элемент стека, но не удаляет его.
@@ -45,22 +42,20 @@ class Stack(Generic[T]):
         if self.is_empty():
             return None
         return self._items[-1]
-    
 
     def size(self) -> int:
         """Возвращает количество элементов в стеке."""
         return len(self._items)
-    
 
     def __repr__(self) -> str:
         return f"Stack({self._items!r})"
-    
+
 
 def is_balanced(s: str) -> bool:
     """
     Проверяет, сбалансирована ли строка скобок.
     Игнорирует пррчие символы - обрабатываются только (), [], {}.
-    """   
+    """
     pairs = {")": "(", "]": "[", "}": "{"}
     openings = set(pairs.values())
     stack = Stack[str]()
@@ -74,8 +69,8 @@ def is_balanced(s: str) -> bool:
             top = stack.pop()
             if top != pairs[ch]:
                 return False
-            
-    return stack.is_empty()        
+
+    return stack.is_empty()
 
 
 def _demo_examples() -> None:
@@ -88,7 +83,7 @@ def _demo_examples() -> None:
         "{{[(])}}",
         "[[[(]]",
         "",  # пустая строка — сбалансирована
-        "a+(b*c)-{d/e}"  # игнорируем не-скобочные символы        
+        "a+(b*c)-{d/e}",  # игнорируем не-скобочные символы
     ]
     for s in examples:
         result = "Сбалансированно" if is_balanced(s) else "Несбалансированно"

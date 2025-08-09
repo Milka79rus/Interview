@@ -33,7 +33,9 @@ class GmailClient:
         except smtplib.SMTPException as e:
             print(f"Ошибка при отправке письма: {e}")
 
-    def receive_email(self, header: Optional[str] = None) -> Optional[email.message.Message]:
+    def receive_email(
+        self, header: Optional[str] = None
+    ) -> Optional[email.message.Message]:
         """Получение последнего письма (по заголовку или всех)."""
         try:
             with imaplib.IMAP4_SSL(self.imap_server) as mail:
@@ -91,8 +93,9 @@ if __name__ == "__main__":
             for part in email_obj.walk():
                 if part.get_content_type() == "text/plain":
                     charset = part.get_content_charset() or "utf-8"
-                    text = part.get_payload(decode=True).decode(charset, errors="replace")
+                    text = part.get_payload(decode=True).decode(
+                        charset, errors="replace"
+                    )
                     print(text)
     else:
         print("Неизвестная команда.")
-
